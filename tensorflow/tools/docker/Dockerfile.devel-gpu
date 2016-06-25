@@ -93,7 +93,7 @@ RUN mkdir /bazel && \
 
 # Download and build TensorFlow.
 
-RUN git clone --recursive https://github.com/tensorflow/tensorflow.git && \
+RUN git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git && \
     cd tensorflow && \
     git checkout r0.8
 WORKDIR /tensorflow
