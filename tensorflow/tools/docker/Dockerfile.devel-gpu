@@ -2,6 +2,8 @@ FROM nvidia/cuda:7.5-cudnn4-devel
 
 MAINTAINER Craig Citro <craigcitro@google.com>
 
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 RUN apt-get update && apt-get install -y \
         build-essential \
         curl \
