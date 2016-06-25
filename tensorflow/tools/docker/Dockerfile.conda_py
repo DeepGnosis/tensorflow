@@ -1,6 +1,6 @@
 FROM nvidia/cuda:7.5-cudnn4-devel
 
-MAINTAINER Craig Citro <craigcitro@google.com>
+MAINTAINER Dmitry Lukovkin <lukovkin@stocksneural.net>
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
