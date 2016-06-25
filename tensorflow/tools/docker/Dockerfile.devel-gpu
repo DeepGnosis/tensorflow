@@ -109,7 +109,7 @@ RUN source activate keras && \
     bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
     cp -r bazel-bin/tensorflow/tools/pip_package/build_pip_package.runfiles/__main__/* bazel-bin/tensorflow/tools/pip_package/build_pip_package.runfiles/ && \
     bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
-    pip install --upgrade /tmp/pip/tensorflow-*.whl
+    pip install /tmp/pip/tensorflow-*.whl
     
 RUN source activate keras \
   && pip install git+git://github.com/pykalman/pykalman.git \
