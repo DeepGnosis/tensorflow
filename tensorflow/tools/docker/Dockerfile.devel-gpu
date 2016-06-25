@@ -46,7 +46,7 @@ RUN source activate keras \
     quandl \
     ipykernel \
     jupyter \
-    python -m ipykernel.kernelspec
+  && python -m ipykernel.kernelspec
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
