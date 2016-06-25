@@ -21,15 +21,29 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -fSsL -O https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py
+RUN curl -qsSLkO \
+    https://repo.continuum.io/miniconda/Miniconda-latest-Linux-`uname -p`.sh \
+  && bash Miniconda-latest-Linux-`uname -p`.sh -b \
+  && rm Miniconda-latest-Linux-`uname -p`.sh
 
-RUN pip --no-cache-dir install \
-        ipykernel \
-        jupyter \
-        matplotlib \
-        && \
+ENV PATH=/root/miniconda2/bin:$PATH
+
+RUN conda create --name keras python=3.5
+
+RUN source activate keras \
+  && conda install -y \
+    mkl \
+    h5py \
+    pandas \
+    scikit-learn \
+    networkx \
+    pyyaml \
+    pymongo \
+    smart_open \
+    matplotlib \
+    quandl \
+    ipykernel \
+    jupyter \
     python -m ipykernel.kernelspec
 
 # Set up our notebook config.
@@ -87,15 +101,27 @@ ENV CUDA_TOOLKIT_PATH /usr/local/cuda
 ENV CUDNN_INSTALL_PATH /usr/local/cuda
 ENV TF_NEED_CUDA 1
 
-RUN ./configure && \
+RUN source activate keras \
+    ./configure && \
     bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
     bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
     pip install --upgrade /tmp/pip/tensorflow-*.whl
+    
+RUN source activate keras \
+  && pip install git+git://github.com/pykalman/pykalman.git \
+  && pip install git+git://github.com/fchollet/keras.git --no-deps \
+  && pip install --no-deps git+https://github.com/lukovkin/hyperopt.git \
+  && pip install git+https://github.com/lukovkin/holidays.py.git \
+  && pip install bdateutil
 
-WORKDIR /root
+VOLUME /notebook
+WORKDIR /notebook
 
 # Set up CUDA variables
 ENV CUDA_PATH /usr/local/cuda
+
+ENV OMP_NUM_THREADS=8
+ENV PYTHONPATH=/notebook/nnt-backend-py/:/notebook/UFCNN/ufcnn:
 
 # TensorBoard
 EXPOSE 6006
