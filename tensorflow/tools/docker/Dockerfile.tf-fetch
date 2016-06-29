@@ -4,7 +4,7 @@ FROM deepgnosis/tensorflow-bazel
 
 RUN git clone --recurse-submodules https://github.com/tensorflow/tensorflow.git && \
     cd tensorflow && \
-    git checkout r0.8 && \
+    git checkout r0.9 && \
     git submodule update --init
 WORKDIR /tensorflow
 
