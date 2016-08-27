@@ -46,6 +46,8 @@ RUN source activate keras \
     quandl \
     ipykernel \
     jupyter \
+    psycopg2 \
+    sqlalchemy
   && python -m ipykernel.kernelspec
 
 # Set up our notebook config.
