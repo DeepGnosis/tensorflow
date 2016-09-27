@@ -1,4 +1,4 @@
-FROM nvidia/cuda:7.5-cudnn4-devel
+FROM nvidia/cuda:8.0-cudnn5-devel
 
 MAINTAINER Craig Citro <craigcitro@google.com>
 
@@ -82,7 +82,7 @@ RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
     >>/root/.bazelrc
 ENV BAZELRC /root/.bazelrc
 # Install the most recent bazel release.
-ENV BAZEL_VERSION 0.3.0
+ENV BAZEL_VERSION 0.3.1
 WORKDIR /
 RUN mkdir /bazel && \
     cd /bazel && \
@@ -114,7 +114,7 @@ RUN source activate keras && \
     
 RUN source activate keras \
   && pip install git+git://github.com/pykalman/pykalman.git \
-  && pip install git+git://github.com/fchollet/keras.git --no-deps \
+  && pip install git+https://github.com/DeepGnosis/keras.git@fchollet.keras.master --no-deps \
   && pip install --no-deps git+https://github.com/lukovkin/hyperopt.git \
   && pip install git+https://github.com/lukovkin/holidays.py.git \
   && pip install bdateutil
